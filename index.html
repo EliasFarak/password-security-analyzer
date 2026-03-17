@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PassSec — Password Security Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- BACKGROUND GRID -->
+  <div class="bg-grid"></div>
+  <div class="bg-noise"></div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-bracket">[</span>
+        <span class="logo-text">PASSSEC</span>
+        <span class="logo-bracket">]</span>
+      </div>
+      <nav class="nav">
+        <a href="#analyzer" class="nav-link">Analyzer</a>
+        <a href="#generator" class="nav-link">Generator</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="https://github.com/eliamcodes/password-security-analyzer" target="_blank" class="nav-github">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-tag">CYBERSECURITY TOOL v2.0</div>
+    <h1 class="hero-title">
+      <span class="hero-line">How secure</span>
+      <span class="hero-line accent">is your</span>
+      <span class="hero-line">password?</span>
+    </h1>
+    <p class="hero-sub">Military-grade entropy analysis, pattern detection &amp; brute-force estimation — running entirely in your browser.</p>
+    <a href="#analyzer" class="hero-cta">
+      <span>Analyze Now</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+    </a>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-item"><span class="stat-num">256-bit</span><span class="stat-label">Max Entropy</span></div>
+    <div class="stat-sep">—</div>
+    <div class="stat-item"><span class="stat-num">10K+</span><span class="stat-label">Common Passwords</span></div>
+    <div class="stat-sep">—</div>
+    <div class="stat-item"><span class="stat-num">100%</span><span class="stat-label">Client-Side</span></div>
+    <div class="stat-sep">—</div>
+    <div class="stat-item"><span class="stat-num">0</span><span class="stat-label">Data Stored</span></div>
+  </div>
+
+  <!-- ANALYZER SECTION -->
+  <section class="section" id="analyzer">
+    <div class="section-label">01 — ANALYZER</div>
+    <h2 class="section-title">Password Analysis</h2>
+
+    <div class="analyzer-card">
+      <!-- INPUT -->
+      <div class="input-group">
+        <div class="input-wrapper">
+          <input
+            type="password"
+            id="passwordInput"
+            class="password-input"
+            placeholder="Enter your password..."
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="toggle-visibility" id="toggleBtn" title="Show/hide password">
+            <svg class="eye-icon" id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <button class="analyze-btn" id="analyzeBtn">
+          <span>Analyze</span>
+          <div class="btn-scan"></div>
+        </button>
+      </div>
+
+      <!-- STRENGTH METER -->
+      <div class="strength-container" id="strengthContainer" style="display:none">
+        <div class="strength-label-row">
+          <span class="strength-label">Strength</span>
+          <span class="strength-value" id="strengthLabel">—</span>
+        </div>
+        <div class="strength-track">
+          <div class="strength-fill" id="strengthFill"></div>
+        </div>
+      </div>
+
+      <!-- RESULTS GRID -->
+      <div class="results-grid" id="resultsGrid" style="display:none">
+
+        <!-- Entropy Card -->
+        <div class="result-card" id="cardEntropy">
+          <div class="result-card-header">
+            <div class="result-icon entropy-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <span class="result-card-title">Entropy</span>
+          </div>
+          <div class="result-card-value" id="entropyValue">—</div>
+          <div class="result-card-sub" id="entropySub">bits</div>
+          <div class="result-bar-track">
+            <div class="result-bar-fill entropy-bar" id="entropyBar"></div>
+          </div>
+        </div>
+
+        <!-- Crack Time Card -->
+        <div class="result-card" id="cardCrack">
+          <div class="result-card-header">
+            <div class="result-icon crack-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <span class="result-card-title">Crack Time</span>
+          </div>
+          <div class="result-card-value crack-value" id="crackValue">—</div>
+          <div class="result-card-sub">at 10⁹ guesses/sec</div>
+        </div>
+
+        <!-- Charset Card -->
+        <div class="result-card" id="cardCharset">
+          <div class="result-card-header">
+            <div class="result-icon charset-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+            </div>
+            <span class="result-card-title">Charset Size</span>
+          </div>
+          <div class="result-card-value" id="charsetValue">—</div>
+          <div class="result-card-sub" id="charsetTypes">—</div>
+        </div>
+
+        <!-- Combinations Card -->
+        <div class="result-card" id="cardCombinations">
+          <div class="result-card-header">
+            <div class="result-icon combo-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+            </div>
+            <span class="result-card-title">Combinations</span>
+          </div>
+          <div class="result-card-value" id="comboValue">—</div>
+          <div class="result-card-sub">possible</div>
+        </div>
+
+      </div>
+
+      <!-- WARNINGS / PATTERNS -->
+      <div class="warnings-section" id="warningsSection" style="display:none">
+        <div class="warnings-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Detected Issues
+        </div>
+        <div class="warnings-list" id="warningsList"></div>
+      </div>
+
+      <!-- SUCCESS MESSAGE -->
+      <div class="success-section" id="successSection" style="display:none">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        No common patterns detected. Good password structure!
+      </div>
+
+      <!-- CHECKLIST -->
+      <div class="checklist" id="checklist" style="display:none">
+        <div class="checklist-title">Security Checklist</div>
+        <div class="checklist-items" id="checklistItems"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ENTROPY VISUALIZATION -->
+  <section class="section vis-section" id="visualization" style="display:none">
+    <div class="section-label">02 — VISUALIZATION</div>
+    <h2 class="section-title">Entropy Breakdown</h2>
+    <div class="vis-grid">
+      <div class="vis-card">
+        <div class="vis-card-title">Character Distribution</div>
+        <canvas id="charChart" width="300" height="180"></canvas>
+      </div>
+      <div class="vis-card">
+        <div class="vis-card-title">Security Scale</div>
+        <div class="security-scale">
+          <div class="scale-track">
+            <div class="scale-zones">
+              <div class="zone zone-red" title="Very Weak (0–28 bits)"></div>
+              <div class="zone zone-orange" title="Weak (28–40 bits)"></div>
+              <div class="zone zone-yellow" title="Fair (40–56 bits)"></div>
+              <div class="zone zone-green" title="Strong (56–80 bits)"></div>
+              <div class="zone zone-blue" title="Very Strong (80+ bits)"></div>
+            </div>
+            <div class="scale-needle" id="scaleNeedle"></div>
+          </div>
+          <div class="scale-labels">
+            <span>0</span><span>28</span><span>40</span><span>56</span><span>80</span><span>128+</span>
+          </div>
+          <div class="scale-legend">
+            <span class="legend-dot red"></span><span>Very Weak</span>
+            <span class="legend-dot orange"></span><span>Weak</span>
+            <span class="legend-dot yellow"></span><span>Fair</span>
+            <span class="legend-dot green"></span><span>Strong</span>
+            <span class="legend-dot blue"></span><span>Very Strong</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GENERATOR SECTION -->
+  <section class="section" id="generator">
+    <div class="section-label">03 — GENERATOR</div>
+    <h2 class="section-title">Secure Password Generator</h2>
+
+    <div class="generator-card">
+      <div class="gen-output-row">
+        <div class="gen-output" id="genOutput">Click "Generate" to create a password</div>
+        <button class="copy-btn" id="copyBtn" title="Copy to clipboard">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+
+      <div class="gen-controls">
+        <div class="gen-control-row">
+          <label class="gen-label">Length: <span id="lengthDisplay">16</span></label>
+          <input type="range" min="8" max="64" value="16" id="lengthSlider" class="slider" />
+        </div>
+
+        <div class="gen-toggles">
+          <label class="toggle-label">
+            <input type="checkbox" id="chkLower" checked class="toggle-cb" />
+            <span class="toggle-track"></span>
+            <span>Lowercase (a–z)</span>
+          </label>
+          <label class="toggle-label">
+            <input type="checkbox" id="chkUpper" checked class="toggle-cb" />
+            <span class="toggle-track"></span>
+            <span>Uppercase (A–Z)</span>
+          </label>
+          <label class="toggle-label">
+            <input type="checkbox" id="chkDigits" checked class="toggle-cb" />
+            <span class="toggle-track"></span>
+            <span>Digits (0–9)</span>
+          </label>
+          <label class="toggle-label">
+            <input type="checkbox" id="chkSymbols" checked class="toggle-cb" />
+            <span class="toggle-track"></span>
+            <span>Symbols (!@#$...)</span>
+          </label>
+        </div>
+
+        <button class="generate-btn" id="generateBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Generate Password
+        </button>
+      </div>
+
+      <div class="gen-stats" id="genStats" style="display:none">
+        <span class="gen-stat-item">Entropy: <strong id="genEntropy">—</strong> bits</span>
+        <span class="gen-stat-sep">|</span>
+        <span class="gen-stat-item">Crack time: <strong id="genCrack">—</strong></span>
+        <span class="gen-stat-sep">|</span>
+        <span class="gen-stat-item">Strength: <strong id="genStrength">—</strong></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="section about-section" id="about">
+    <div class="section-label">04 — ABOUT</div>
+    <h2 class="section-title">How It Works</h2>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="about-num">01</div>
+        <h3>Entropy Analysis</h3>
+        <p>Calculates Shannon entropy using charset size and password length. Formula: <code>E = L × log₂(N)</code> where L = length, N = charset size.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-num">02</div>
+        <h3>Pattern Detection</h3>
+        <p>Identifies common weak patterns: numeric sequences, keyboard walks, dictionary words, repeated characters, and predictable substitutions.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-num">03</div>
+        <h3>Brute-Force Estimation</h3>
+        <p>Estimates crack time assuming 10⁹ guesses/second (modern GPU). Calculates N^L total combinations and divides by attack rate.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-num">04</div>
+        <h3>Dictionary Check</h3>
+        <p>Checks against a curated list of the most commonly used passwords worldwide. Flags matches as critical vulnerabilities.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="logo-text small">[PASSSEC]</span>
+        <span class="footer-sub">Educational cybersecurity tool by Eliam</span>
+      </div>
+      <div class="footer-right">
+        <span class="footer-note">No passwords are stored or transmitted. 100% client-side.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

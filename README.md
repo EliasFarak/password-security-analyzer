@@ -1,6 +1,6 @@
 # [PASSSEC] — Password Security Analyzer
 
-> A professional, client-side password security tool with entropy analysis, pattern detection, brute-force estimation, and secure password generation. Built for GitHub Pages — no backend required.
+> A professional, client-side password security tool with entropy analysis, pattern detection, brute-force estimation, and secure password generation.
 
 ![Preview](https://img.shields.io/badge/Live_Demo-GitHub_Pages-00e5a0?style=for-the-badge)
 ![Language](https://img.shields.io/badge/HTML%2FCSS%2FJS-100%25_Client_Side-0090ff?style=for-the-badge)
